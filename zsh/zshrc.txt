@@ -1,0 +1,52 @@
+#!/usr/bin/env zsh
+
+# share history across multiple zsh sessions
+setopt SHARE_HISTORY
+
+# append to history
+setopt APPEND_HISTORY
+
+# adds commands as they are typed, not at shell exit
+setopt INC_APPEND_HISTORY
+
+# do not store duplications
+setopt HIST_IGNORE_ALL_DUPS
+
+# removes blank lines from history
+setopt HIST_REDUCE_BLANKS
+
+# ignore commands that start with a space
+setopt HIST_IGNORE_SPACE
+
+# these do not get added to history
+export HISTORY_IGNORE="(history|man|cat|exit)"
+
+# expand the history size
+export HISTFILE=~/.zsh_history
+export HISTSIZE=999999
+export SAVEHIST=999999
+
+
+
+# set locale environment
+export LANGUAGE=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
+
+# set PATH
+export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
+#export PATH=$PATH:~/Development/flutter/bin
+
+
+# ALIASES
+if [[ -f ~/.zsh_aliases ]]; then
+    source ~/.zsh_aliases
+fi
+
+
+# PROMPT
+if [[ -f ~/.zsh_prompt ]]; then
+    source ~/.zsh_prompt
+fi
+

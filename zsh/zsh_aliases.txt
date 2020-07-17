@@ -1,0 +1,69 @@
+#!/usr/bin/env zsh
+
+# remove .DS_Store files
+alias ds="sudo find -x . -iname '.DS_Store'"
+
+
+# IP addresses
+alias ip="curl ifconfig.me"
+alias ips="ifconfig -a | perl -nle'/(\d+\.\d+\.\d+\.\d+)/ && print $1'"
+
+
+# list files - F: flag directories, executables, symlinks, etc   l: long format   A: all files except . and ..   G: colorize output
+alias ll="ls -FlAG"
+
+
+# safety first rm
+alias rm="rm -i"
+
+
+# add blank space to dock
+alias space="defaults write com.apple.dock persistent-apps -array-add '{tile-data={}; tile-type=\"spacer-tile\";}';Killall Dock"
+
+
+# alias to add a space-tile to the Dock
+# Left side
+#   defaults write com.apple.dock persistent-apps -array-add '{tile-data={}; tile-type="spacer-tile";}'
+# Right Side
+#   defaults write com.apple.dock persistent-others -array-add '{tile-data={}; tile-type="spacer-tile";}'
+
+
+# man pages for Google Chrome (Safari won't work like this)
+function gman {
+    man -P cat "$1" | col -b > "/tmp/$1"
+    open -a "/Applications/Google Chrome.app" "/tmp/$1"
+}
+
+
+# convert windows line endings to unix line endings
+function crlf2lf {
+    grep --exclude-dir .git -lIr "^M$" . | xargs sed -i 's/^M$//'
+}
+
+
+# rename files and folders with spaces in their names
+function spaces2periods {
+    for f in *\ *; do mv "$f" "${f// /.}"; done
+}
+
+
+function spaces2underscores {
+    for f in *\ *; do mv "$f" "${f// /_}"; done
+}
+
+
+function pczip {
+    if [[ "$#" -lt 1 ]]; then
+        echo "Usage: pczip [directory]"
+        return
+    elif [[ ! -d "$1" ]]; then
+        echo "$1 is not a valid directory."
+        return
+    fi
+    zip -r $1.zip $1/ -x ".DS_Store" -x "__MACOSX"
+}
+
+
+# To enclose single quotes within other single quotes, it needs to be escaped using '\'
+# or in other terms each inner single quote needs to be replaced with '\''
+#   grep 'text' source.txt    becomes      alias sample='grep '\''text'\'' source.txt'
